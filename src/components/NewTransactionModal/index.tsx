@@ -3,29 +3,38 @@ import { Container, TransactionsBtnContainer, RadioBox } from "./style"
 import closeImg from "../../assets/close.svg"
 import incomeImg from "../../assets/income.svg"
 import outcomeImg from "../../assets/outcome.svg"
-import { FormEvent, useState } from "react"
-import { api } from "../../services/api"
+import { FormEvent, useContext, useState } from "react"
+import { TransactionContext } from "../../context/TransactionContext"
 interface NewTransactionModalProps  {
     isOpen: boolean
     onRequestClose: () => void
 }
 
-export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+export async function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+  const { createTransactions } = useContext(TransactionContext)
     const [type, setType] = useState("deposit")
     const [title, setTitle] = useState("")
     const [value, setValue] = useState(0)
-    const [category, setCategory] = useState("")
+  const [category, setCategory] = useState("")
+  
     function handleForm(e: FormEvent) {
         e.preventDefault()
-        const data = {
-            type,
-            title,
-            value,
-            category
-        }
-        api.post("/transactions", data)
+       
     }
-    
+ await createTransactions({
+    category,
+    title,
+    type,
+    value
+ })
+  function clearData(): void{
+    setType("")
+    setTitle("")
+    setValue(0)
+    setCategory("")
+  }
+  onRequestClose()
+  clearData()
     return (
       <Modal
         isOpen={isOpen}

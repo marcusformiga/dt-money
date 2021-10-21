@@ -33,6 +33,11 @@ export const Container = styled.div`
     background-color: var(--bg-green);
     color: #fff
 }
-
+@media(max-width: 800px){
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}
 
 `;

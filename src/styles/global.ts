@@ -27,7 +27,11 @@ html{
     @media(max-width: 720px){
         font-size: 87.75%;
     }
+    @media(max-width: 860px){
+        font-size: 85%;
+    }
 }
+
 button{
     cursor: pointer;
 }

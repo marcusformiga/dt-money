@@ -1,21 +1,10 @@
 import { Container } from "./style";
-import { useEffect, useState } from "react";
-import { api } from "../../services/api";
-import { AxiosResponse } from "axios"
+import { useContext} from "react";
+import { TransactionContext } from "../../context/TransactionContext";
 
-interface Transaction {
-  id: number
-  title: string
-  value: number
-  category: string
-  type: string
-  createdAt: Date
-}
+
 export function TransactionsTable() {
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-  useEffect(() => {
-   api.get("transactions").then(response => setTransactions(response.data))
- }, [])
+  const {transactions} = useContext(TransactionContext)
   return (
     <Container>
       <table>
@@ -32,9 +21,12 @@ export function TransactionsTable() {
             return (
               <tr key={index}>
                 <td>{transaction.title}</td>
-                <td className={transaction.type}>{transaction.value}</td>
+                <td className={transaction.type}>{new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL"
+                }).format(transaction.value)}</td>
                 <td>{transaction.category}</td>
-                <td>{transaction.createdAt}</td>
+                <td>{new Intl.DateTimeFormat("pt-BR").format(new Date(transaction.createdAt))}</td>
                 </tr>
             )
           })}            
