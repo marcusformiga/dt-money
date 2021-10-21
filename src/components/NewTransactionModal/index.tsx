@@ -10,23 +10,25 @@ interface NewTransactionModalProps  {
     onRequestClose: () => void
 }
 
-export async function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
   const { createTransactions } = useContext(TransactionContext)
     const [type, setType] = useState("deposit")
     const [title, setTitle] = useState("")
     const [value, setValue] = useState(0)
   const [category, setCategory] = useState("")
   
-    function handleForm(e: FormEvent) {
-        e.preventDefault()
-       
-    }
- await createTransactions({
+   async function handleForm(e: FormEvent) {
+     e.preventDefault()
+    await createTransactions({
     category,
     title,
     type,
     value
- })
+    })
+     
+       
+}
+   
   function clearData(): void{
     setType("")
     setTitle("")
